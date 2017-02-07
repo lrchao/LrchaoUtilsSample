@@ -144,10 +144,36 @@ public final class StringUtils {
         return mUrl;
     }
 
+    /**
+     * 是否为URL
+     */
     public static boolean isURL(String url) {
         if (TextUtils.isEmpty(url)) {
             return false;
         }
         return url.startsWith("http://");
+    }
+
+    /**
+     * 校验Ip地址是否合法
+     */
+    public static boolean checkIp(String str) {
+        String[] ipValue = str.split("\\.");
+        if (ipValue.length != 4) {
+            return false;
+        }
+        for (int i = 0; i < ipValue.length; i++) {
+            String temp = ipValue[i];
+            try {
+                // java判断字串是否整数可以用此类型转换异常捕获方法，也可以用正则 var regu = /^\d+$/;
+                Integer q = Integer.valueOf(ipValue[i]);
+                if (q > 255) {
+                    return false;
+                }
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return true;
     }
 }

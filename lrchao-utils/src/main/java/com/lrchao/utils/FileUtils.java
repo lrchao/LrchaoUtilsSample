@@ -7,8 +7,12 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,6 +129,20 @@ public final class FileUtils {
     }
 
     /**
+     * 读取文本内容
+     */
+    public static String readTextFile(String filePath) {
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(new File(filePath));
+            return readTextFile(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
      * 判断SDCard是否可用
      */
     public static boolean isSDCardAvailable() {
@@ -132,6 +150,8 @@ public final class FileUtils {
     }
 
     /**
+     * 写文件，如果存在则删除
+     *
      * @param path    文件路径
      * @param content 写入的文本内容
      */
@@ -287,6 +307,72 @@ public final class FileUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * 复制文件，可以覆盖
+     */
+    public static boolean copyFile(File sourceFile, File targetFile) {
+
+        boolean isOk = true;
+        try {
+            // 新建文件输入流并对它进行缓冲
+            FileInputStream input = new FileInputStream(sourceFile);
+            BufferedInputStream inBuff = new BufferedInputStream(input);
+
+            // 新建文件输出流并对它进行缓冲
+            FileOutputStream output = new FileOutputStream(targetFile);
+            BufferedOutputStream outBuff = new BufferedOutputStream(output);
+
+            // 缓冲数组
+            byte[] b = new byte[1024 * 5];
+            int len;
+            while ((len = inBuff.read(b)) != -1) {
+                outBuff.write(b, 0, len);
+            }
+            // 刷新此缓冲的输出流
+            outBuff.flush();
+
+            //关闭流
+            inBuff.close();
+            outBuff.close();
+            output.close();
+            input.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            isOk = false;
+        }
+        return isOk;
+    }
+
+    /**
+     * 追加文件：使用RandomAccessFile
+     * 换行使用 \n
+     *
+     * @param filePath 文件名
+     * @param content  追加的内容
+     */
+    public static void writeAdditionalFile(String filePath, String content) {
+        RandomAccessFile randomFile = null;
+        try {
+            // 打开一个随机访问文件流，按读写方式
+            randomFile = new RandomAccessFile(filePath, "rw");
+            // 文件长度，字节数
+            long fileLength = randomFile.length();
+            // 将写文件指针移到文件尾。
+            randomFile.seek(fileLength);
+            randomFile.writeBytes(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (randomFile != null) {
+                try {
+                    randomFile.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 

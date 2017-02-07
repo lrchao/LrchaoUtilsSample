@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
+import java.lang.reflect.Method;
+
 /**
  * Description: 网络相关的工具类
  *
@@ -25,6 +27,27 @@ public final class NetworkUtils {
     private static final String TYPE_WIFI = "WIFI";
 
     private NetworkUtils() {
+    }
+
+    /**
+     * 移动数据网络是否打开
+     */
+    public static boolean isMobileNetworkAvailable() {
+        ConnectivityManager cm;
+        cm = (ConnectivityManager) LrchaoUtils.getInstance().getContext().
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        Class cmClass = cm.getClass();
+        Class[] argClasses = null;
+        Object[] argObject = null;
+        Boolean isOpen = false;
+        try {
+            Method method = cmClass.getMethod("getMobileDataEnabled", argClasses);
+            isOpen = (Boolean) method.invoke(cm, argObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isOpen;
     }
 
     /**
