@@ -74,4 +74,23 @@ public final class DateUtils {
         SimpleDateFormat format = new SimpleDateFormat(type, Locale.US);
         return format.format(date);
     }
+
+    /**
+     * 计算两个时间date间的时间差，按天 小时 显示
+     *
+     * @param duration 秒
+     * @return String
+     */
+    public static String getResidueTime(long duration) {
+        long minutesInMilli = 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = duration / daysInMilli;
+        duration = duration % daysInMilli;
+        long elapsedHours = duration / hoursInMilli;
+
+        return elapsedDays + "天" + elapsedHours + "小时";
+
+    }
 }

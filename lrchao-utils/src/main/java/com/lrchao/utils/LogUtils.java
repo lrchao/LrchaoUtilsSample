@@ -2,6 +2,8 @@ package com.lrchao.utils;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 /**
  * Description: Log工具类
@@ -30,6 +32,116 @@ public final class LogUtils {
      */
     public static void debug(boolean isDebug) {
         sIsDebug = isDebug;
+    }
+
+    /**
+     * AccessibilityService
+     *
+     * @param event              事件
+     * @param rootInActiveWindow 根节点
+     */
+    public static void accessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootInActiveWindow) {
+
+        int eventType = event.getEventType();
+        String type = "";
+        CharSequence className = "";
+        CharSequence packageName = "";
+
+        switch (eventType) {
+            case AccessibilityEvent.TYPE_VIEW_CLICKED:
+                type = "TYPE_VIEW_CLICKED";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_VIEW_LONG_CLICKED:
+                type = "TYPE_VIEW_LONG_CLICKED";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_VIEW_SELECTED:
+                type = "TYPE_VIEW_SELECTED";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_VIEW_FOCUSED:
+                type = "TYPE_VIEW_FOCUSED";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED:
+                type = "TYPE_VIEW_TEXT_CHANGED";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
+                type = "TYPE_VIEW_TEXT_SELECTION_CHANGED";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY:
+                type = "TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_VIEW_SCROLLED:
+                type = "TYPE_VIEW_SCROLLED";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
+                type = "TYPE_WINDOW_STATE_CHANGED";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
+                type = "TYPE_WINDOW_CONTENT_CHANGED";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_WINDOWS_CHANGED:
+                type = "TYPE_WINDOWS_CHANGED";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
+                type = "TYPE_NOTIFICATION_STATE_CHANGED";
+                // rootInActiveWindow == null
+                className = event.getClassName();
+                break;
+            case AccessibilityEvent.TYPE_VIEW_HOVER_ENTER:
+                type = "TYPE_VIEW_HOVER_ENTER";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_VIEW_HOVER_EXIT:
+                type = "TYPE_VIEW_HOVER_EXIT";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_TOUCH_INTERACTION_START:
+                type = "TYPE_TOUCH_INTERACTION_START";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            case AccessibilityEvent.TYPE_TOUCH_INTERACTION_END:
+                type = "TYPE_TOUCH_INTERACTION_END";
+                className = event.getClassName();
+                packageName = getRootInActiveWindowPackageName(rootInActiveWindow);
+                break;
+            default:
+                break;
+        }
+
+        LogUtils.i("accessibilityEvent=type：" + type +
+                " className：" + className +
+                " packageName：" + packageName);
+    }
+
+    private static CharSequence getRootInActiveWindowPackageName(AccessibilityNodeInfo rootInActiveWindow) {
+        if (rootInActiveWindow != null) {
+            return rootInActiveWindow.getPackageName();
+        }
+        return "";
     }
 
     //====================================
