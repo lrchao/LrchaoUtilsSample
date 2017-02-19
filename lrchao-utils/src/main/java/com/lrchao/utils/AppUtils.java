@@ -2,6 +2,8 @@ package com.lrchao.utils;
 
 import android.app.ActivityManager;
 import android.app.AppOpsManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -181,6 +183,17 @@ public final class AppUtils {
     private static long getTotalMemory(String line) {
         String[] totalArr = line.split(MEM_TOTAL);
         return Long.parseLong(totalArr[1].trim());
+    }
+
+    /**
+     * 将文本复制到粘贴板
+     *
+     * @param content 复制的内容
+     */
+    public static void copyToClipboard(String content) {
+        ClipboardManager clip = (ClipboardManager) LrchaoUtils.getInstance().getContext().
+                getSystemService(Context.CLIPBOARD_SERVICE);
+        clip.setPrimaryClip(ClipData.newPlainText(null, content)); // 复制
     }
 
 }
