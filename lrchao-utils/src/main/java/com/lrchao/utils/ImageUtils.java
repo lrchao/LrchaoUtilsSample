@@ -31,13 +31,6 @@ import java.io.File;
 
 public final class ImageUtils {
 
-    static {
-        Picasso picasso = new Picasso.Builder(LrchaoUtils.getInstance().getContext())
-                .build();
-        picasso.setIndicatorsEnabled(false);
-        Picasso.setSingletonInstance(picasso);
-    }
-
     private ImageUtils() {
     }
 

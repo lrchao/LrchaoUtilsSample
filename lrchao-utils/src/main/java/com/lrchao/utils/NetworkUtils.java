@@ -30,6 +30,17 @@ public final class NetworkUtils {
     }
 
     /**
+     * 判断网络是否可用
+     */
+    public static boolean isNetworkAvailable() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                LrchaoUtils.getInstance().getContext().
+                        getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    /**
      * 移动数据网络是否打开
      */
     public static boolean isMobileNetworkAvailable() {
