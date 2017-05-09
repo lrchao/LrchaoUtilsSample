@@ -1,6 +1,7 @@
 package com.lrchao.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -92,5 +93,19 @@ public final class DateUtils {
 
         return elapsedDays + "天" + elapsedHours + "小时";
 
+    }
+
+    /**
+     * 获取今日24点时间戳
+     *
+     * @return long
+     */
+    public static long getTimesTodaymorning() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 24);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis();
     }
 }
